@@ -1,0 +1,6 @@
+# Fichier requirements.txt pour le projet DVF Pipeline
+
+pandas==2.1.1
+requests==2.31.0
+streamlit==1.27.0
+plotly==5.18.0

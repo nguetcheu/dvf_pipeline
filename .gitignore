@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+.venv/
+
+# Data
+data/raw/
+data/*.zip
+*.zip
+
+# IDE / système
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Streamlit cache
+.streamlit/
+
+# Logs
+*.log
