@@ -2,7 +2,7 @@ name: DVF Pipeline
 
 on:
   schedule:
-    - cron: "0 6 * * 1"  # chaque lundi à 6h
+    - cron: # "0 6 * * 1"  # chaque lundi à 6h
   workflow_dispatch:
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
           python-version: "3.10"
 
       - name: Install dependencies
-        run: pip install -r  src/requirements.txt
+        run: pip install -r src/requirements.txt
 
       - name: Run ingestion script
         run: python src/ingestion/download_dvf.py

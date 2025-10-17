@@ -1,30 +1,49 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from pathlib import Path
 
-CSV_PATH = Path(__file__).resolve().parents[2] / "data/dvf_clean.csv"
-
-@st.cache_data
-def load_data(path):
-    return pd.read_csv(path)
-
+# Titre
 st.title("🏡 Analyse du marché immobilier (DVF)")
 
-if CSV_PATH.exists():
-    df = load_data(CSV_PATH)
-    st.success(f"{len(df)} lignes chargées.")
+# Charger les données
+df = pd.read_csv("data/dvf_clean.csv")
 
-    dept_list = sorted(df["Code postal"].dropna().unique())
-    dept = st.selectbox("Choisir un code postal", dept_list)
-    df_f = df[df["Code postal"] == dept]
+if df.empty:
+    st.warning("Le fichier CSV est vide. Lancez d'abord le pipeline pour générer dvf_clean.csv.")
+    st.stop()
 
-    st.write("### Distribution du prix au m²")
-    fig = px.histogram(df_f, x="prix_m2", nbins=50)
-    st.plotly_chart(fig)
+# Filtre : code postal
+codes_postaux = df["Code postal"].sort_values().unique()
+selected_cp = st.selectbox("Choisir un code postal", options=codes_postaux)
 
-    st.write("### Prix par type de bien")
-    fig2 = px.box(df_f, x="Type local", y="prix_m2")
-    st.plotly_chart(fig2)
-else:
-    st.warning("Le fichier dvf_clean.csv est introuvable. Lance d'abord le pipeline d'ingestion et nettoyage.")
+# Filtrer les données
+filtered_df = df[df["Code postal"] == selected_cp]
+
+st.write(f"Nombre de biens pour le code postal {selected_cp} : {len(filtered_df)}")
+
+# Histogramme du prix au m²
+fig_hist = px.histogram(
+    filtered_df,
+    x="prix_m2",
+    nbins=50,
+    labels={"prix_m2": "Prix au m² (€)"},
+    title="Distribution du prix au m²"
+)
+fig_hist.update_layout(
+    xaxis_title="Prix au m² (€)",
+    yaxis_title="Nombre de biens"
+)
+st.plotly_chart(fig_hist)
+
+# Répartition du prix par type de bien
+fig_type = px.box(
+    filtered_df,
+    x="Type local",
+    y="prix_m2",
+    points="all",
+    labels={"prix_m2": "Prix au m² (€)", "Type local": "Type de bien"},
+    title="Prix au m² par type de bien"
+)
+st.plotly_chart(fig_type)
+
+st.markdown("Made with Streamlit")
