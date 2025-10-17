@@ -2,7 +2,7 @@ name: DVF Pipeline
 
 on:
   schedule:
-    - cron: "0 6 * * 1"  # chaque lundi à 6h
+    - cron: "0 6 * * 1"  # chaque lundi à 06:00 UTC
   workflow_dispatch:
 
 jobs:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v4
