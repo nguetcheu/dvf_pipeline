@@ -31,4 +31,4 @@ streamlit run src/streamlit_app/app.py
 Le workflow se déclenche chaque lundi à 6h, télécharge les données, les nettoie, et pousse la version mise à jour du CSV sur le dépôt.
 
 ## 🌐 Source officielle
-[Données DVF - data.gouv.fr](https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres-geolocalisees-dvf/)
+[Données DVF - data.gouv.fr](https://www.data.gouv.fr/datasets/demandes-de-valeurs-foncieres/)
